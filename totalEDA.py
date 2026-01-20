@@ -37,3 +37,15 @@ def plot_type_distribution(label_col):
     plt.legend()
     plt.tight_layout()
     plt.show()
+
+    def plot_box(label_col, feature):
+    # 피쳐 박스플롯: failure랑 non-failure
+    fail = df[df[label_col] == 1][feature].astype(float)
+    ok = df[df[label_col] == 0][feature].astype(float)
+
+    plt.figure(figsize=(6,4))
+    plt.boxplot([ok, fail], labels=["non-failure", "failure"], showfliers=False)
+    plt.ylabel(feature)
+    plt.title(f"{label_col}: {feature} (boxplot)")
+    plt.tight_layout()
+    plt.show()
