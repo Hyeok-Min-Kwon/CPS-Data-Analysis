@@ -39,13 +39,32 @@ def plot_type_distribution(label_col):
     plt.show()
 
     def plot_box(label_col, feature):
-    # 피쳐 박스플롯: failure랑 non-failure
-    fail = df[df[label_col] == 1][feature].astype(float)
-    ok = df[df[label_col] == 0][feature].astype(float)
+        # 피쳐 박스플롯: failure랑 non-failure
+        fail = df[df[label_col] == 1][feature].astype(float)
+        ok = df[df[label_col] == 0][feature].astype(float)
 
-    plt.figure(figsize=(6,4))
-    plt.boxplot([ok, fail], labels=["non-failure", "failure"], showfliers=False)
-    plt.ylabel(feature)
-    plt.title(f"{label_col}: {feature} (boxplot)")
-    plt.tight_layout()
-    plt.show()
+        plt.figure(figsize=(6,4))
+        plt.boxplot([ok, fail], labels=["non-failure", "failure"], showfliers=False)
+        plt.ylabel(feature)
+        plt.title(f"{label_col}: {feature} (boxplot)")
+        plt.tight_layout()
+        plt.show()
+
+    def plot_hist(label_col, feature, bins=35, density=True, logy=False):
+        """feature 히스토그램: failure vs non-failure"""
+        fail = df[df[label_col] == 1][feature].astype(float)
+        ok = df[df[label_col] == 0][feature].astype(float)
+
+        plt.figure(figsize=(6,4))
+        plt.hist(ok, bins=bins, alpha=0.6, label="non-failure", density=density)
+        plt.hist(fail, bins=bins, alpha=0.6, label="failure", density=density)
+        plt.xlabel(feature)
+        plt.ylabel("Density" if density else "Count")
+        plt.title(f"{label_col}: {feature} (hist)")
+        if logy:
+            plt.yscale("log")
+            plt.ylabel(("Density" if density else "Count") + " (log scale)")
+            plt.title(f"{label_col}: {feature} (hist, log y)")
+        plt.legend()
+        plt.tight_layout()
+        plt.show()
